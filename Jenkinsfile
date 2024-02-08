@@ -46,27 +46,43 @@ pipeline{
         }
 
 
+//sample
+//         stage('Push to JFrog'){
+// when { expression {  params.action == 'create' } }
+//             steps{
+//                script{
+//                 //Connect artifactory
+//                 def server = Artifactory.server 'Pushartifact'
+//                 // upload file
+//                 def uploadSpec = """{
+//                         "files": [
+//                             {
+//                                 "pattern": "target/*.jar",
+//                                 "target": "example-repo-local/"
+//                             }
+//                        ]
+//                 }"""
+//                 //upload artifact to jfrog
+//                 server.upload(uploadSpec)
+//         }
+//   }
+// }
+        //sample
+ stage('Push Jfrog') {
+           steps {
+              script { 
+                 def server = Artifactory.server 'Pushartifact'
+                 def uploadSpec = """{
+                    "files": [{
+                       "pattern": "target/*.jar",
+                       "target": "example-repo-local/"
+                    }]
+                 }"""
 
-        stage('Push to JFrog'){
-when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                //Connect artifactory
-                def server = Artifactory.server 'Pushartifact'
-                // upload file
-                def uploadSpec = """{
-                        "files": [
-                            {
-                                "pattern": "target/*.jar",
-                                "target": "example-repo-local/"
-                            }
-                       ]
-                }"""
-                //upload artifact to jfrog
-                server.upload(uploadSpec)
+                 server.upload(uploadSpec) 
+               }
+            }
         }
-  }
-}
        //  stage('Static code analysis: Sonarqube'){
        //   when { expression {  params.action == 'create' } }
        //      steps{
