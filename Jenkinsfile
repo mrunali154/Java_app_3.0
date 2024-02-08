@@ -3,6 +3,13 @@
 pipeline{
 
     agent any
+
+
+    environment { 
+CI = true 
+ARTIFACTORY _ACCESS_TOKEN = credentials ('artifactory-access-token') 
+JFROG_PASSWORD = credentials('jfrog-password') 
+} 
     //agent { label 'Demo' }
 
     parameters{
@@ -68,21 +75,7 @@ pipeline{
 //   }
 // }
         //sample
- stage('Push Jfrog') {
-           steps {
-              script { 
-                 def server = Artifactory.server 'Pushartifact'
-                 def uploadSpec = """{
-                    "files": [{
-                       "pattern": "target/*.jar",
-                       "target": "example-repo-local/"
-                    }]
-                 }"""
-
-                 server.upload(uploadSpec) 
-               }
-            }
-        }
+ 
        //  stage('Static code analysis: Sonarqube'){
        //   when { expression {  params.action == 'create' } }
        //      steps{
