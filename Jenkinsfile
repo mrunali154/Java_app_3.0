@@ -5,11 +5,10 @@ pipeline{
     agent any
 
 
-    environment { 
-CI = true 
-ARTIFACTORY _ACCESS_TOKEN = credentials ('artifactory-access-token') 
- 
-} 
+    environment {
+    CI = true
+    ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
+  }
     //agent { label 'Demo' }
 
     parameters{
