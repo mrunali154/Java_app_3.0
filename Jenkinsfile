@@ -8,7 +8,7 @@ pipeline{
     environment { 
 CI = true 
 ARTIFACTORY _ACCESS_TOKEN = credentials ('artifactory-access-token') 
-JFROG_PASSWORD = credentials('jfrog-password') 
+ 
 } 
     //agent { label 'Demo' }
 
@@ -27,7 +27,7 @@ JFROG_PASSWORD = credentials('jfrog-password')
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/praveen1994dec/Java_app_3.0.git"
+                url: "https://github.com/mrunali154/Java_app_3.0.git"
             )
             }
         }
@@ -51,7 +51,23 @@ JFROG_PASSWORD = credentials('jfrog-password')
                }
             }
         }
-
+        // new code
+stage('Build') {
+      steps {
+        sh './mvnw clean install'
+      }
+    }
+    stage('Upload to Artifactory') {
+      agent {
+        docker {
+          image 'releases-docker.jfrog.io/jfrog/jfrog-cli-v2:2.2.0' 
+          reuseNode true
+        }
+      }
+      steps {
+        sh 'jfrog rt upload --url http://192.168.1.230:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/http://localhost:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
+      }
+    }
 
 //sample
 //         stage('Push to JFrog'){
