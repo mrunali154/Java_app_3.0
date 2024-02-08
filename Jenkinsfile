@@ -11,13 +11,13 @@ pipeline{
   }
     //agent { label 'Demo' }
 
-   //  parameters{
+    parameters{
 
-      //   choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-       //  string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
-    //     string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-    //     string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'mrunali095')
-    // }
+       choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
+        string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
+       string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
+       string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'mrunali095')
+     }
 
     stages{
          
@@ -51,15 +51,11 @@ pipeline{
             }
         }
         // new code
-// stage('Build') {
-//       steps {
-//         sh './mvnw clean install'
-//       }
-//     }
-    stage('Upload to Artifactory') {
+
+    stage('Push to JFrog') {
       
       steps {
-        sh 'jfrog rt upload --url http://localhost:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar Java_app_3.0/'
+        sh 'jfrog rt upload --url http://54.241.148.167:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar Java_app_3.0/'
       }
     }
 
