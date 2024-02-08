@@ -55,7 +55,7 @@ pipeline{
     stage('Push to JFrog') {
       
       steps {
-        sh 'jfrog rt upload --url http://54.241.148.167:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar Java_app_3.0/'
+        sh 'jfrog rt upload --url http://192.168.1.230:8082/artifactory/ --access-token ${ARTIFACTORY_ACCESS_TOKEN} target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar Java_app_3.0/'
       }
     }
 
