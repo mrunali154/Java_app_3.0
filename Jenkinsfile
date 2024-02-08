@@ -51,11 +51,11 @@ pipeline{
             }
         }
         // new code
-stage('Build') {
-      steps {
-        sh './mvnw clean install'
-      }
-    }
+// stage('Build') {
+//       steps {
+//         sh './mvnw clean install'
+//       }
+//     }
     stage('Upload to Artifactory') {
       
       steps {
