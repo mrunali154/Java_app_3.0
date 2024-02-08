@@ -25,28 +25,10 @@ pipeline{
             )
             }
         }
-         stage('Unit Test maven'){
-         
-         when { expression {  params.action == 'create' } }
 
-            steps{
-               script{
-                   
-                   mvnTest()
-               }
-            }
-        }
-         stage('Integration Test maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   mvnIntegrationTest()
-               }
-            }
-        }
 
-stage('Connect to JFROG') {
+
+        stage('Connect to JFROG') {
 when {
 expression { params.action == 'create' }
 }
@@ -69,6 +51,28 @@ sh curlCommand
 }
 }
 }
+         stage('Unit Test maven'){
+         
+         when { expression {  params.action == 'create' } }
+
+            steps{
+               script{
+                   
+                   mvnTest()
+               }
+            }
+        }
+         stage('Integration Test maven'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   mvnIntegrationTest()
+               }
+            }
+        }
+
+
 
 
         stage('Static code analysis: Sonarqube'){
