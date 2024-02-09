@@ -28,29 +28,8 @@ pipeline{
 
 
 
-        stage('Connect to JFROG') {
-when {
-expression { params.action == 'create' }
-}
-steps {
-script {
-echo "Attempting to push artifacts to JFrog Artifactory"
-withCredentials([usernamePassword(
-credentialsId: "ARTIFACTORY",
-usernameVariable: "USER",
-passwordVariable: "PASS"
-)]) {
-// Use the ARTIFACTORY_USER and ARTIFACTORY_PASSWORD variables
-echo "Username: $USER"
-echo "Password: $PASS"
+      
 
-def curlCommand = "curl -u '${USER}:${PASS}' -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
-echo "Executing curl command: $curlCommand"
-sh curlCommand
-}
-}
-}
-}
          stage('Unit Test maven'){
          
          when { expression {  params.action == 'create' } }
@@ -73,6 +52,29 @@ sh curlCommand
         }
 
 
+  stage('Connect to JFROG') {
+when {
+expression { params.action == 'create' }
+}
+steps {
+script {
+echo "Attempting to push artifacts to JFrog Artifactory"
+withCredentials([usernamePassword(
+credentialsId: "ARTIFACTORY",
+usernameVariable: "USER",
+passwordVariable: "PASS"
+)]) {
+// Use the ARTIFACTORY_USER and ARTIFACTORY_PASSWORD variables
+echo "Username: $USER"
+echo "Password: $PASS"
+
+def curlCommand = "curl -u '${USER}:${PASS}' -T target/*.jar ${params.ArtifactoryURL}/artifactory/example-repo-local/"
+echo "Executing curl command: $curlCommand"
+sh curlCommand
+}
+}
+}
+}
 
 
         stage('Static code analysis: Sonarqube'){
